@@ -1,35 +1,49 @@
 import { CTASection } from "@/components/CTASection";
 import { HeroSection } from "@/components/HeroSection";
-import { MotionSection } from "@/components/MotionSection";
+import { ParallaxSection } from "@/components/ParallaxSection";
 import { ScrollProgress } from "@/components/ScrollProgress";
-import { StickySection } from "@/components/StickySection";
-import { StorySection } from "@/components/StorySection";
+import { StickyStorySection } from "@/components/StickyStorySection";
+import { StoryFlowSection } from "@/components/StoryFlowSection";
 
-const storySections = [
+const storyBeats = [
   {
-    id: "story-precision",
-    eyebrow: "Act I",
-    title: "Clarity arrives first, motion follows, and every frame earns its place.",
+    id: "beat-clarity",
+    eyebrow: "Chapter 01",
+    title: "Open with quiet confidence, then pull the viewer closer.",
     description:
-      "We shape space, rhythm, and typography into a narrative that feels calm at first glance and magnetic on every scroll. The interaction never shouts, but it never feels still.",
+      "The first act should feel spacious and premium. Motion stays restrained, typography leads, and each reveal earns attention instead of demanding it.",
     detail:
-      "Measured transitions, deliberate spacing, and visual restraint create confidence before a single word is read.",
-    accent: "Precision Layer",
+      "This is where layout, rhythm, and contrast establish trust before the deeper interactions arrive.",
+    accent: "Atmosphere",
     direction: "left" as const,
-    tone: "default" as const
+    metric: "91%",
+    metricLabel: "Attention hold"
   },
   {
-    id: "story-depth",
-    eyebrow: "Act II",
-    title:
-      "The pace shifts as the surface deepens and the page starts to breathe.",
+    id: "beat-contrast",
+    eyebrow: "Chapter 02",
+    title: "Shift the visual pressure and let the scroll introduce contrast.",
     description:
-      "A darker field, opposing motion, and soft parallax add tension and contrast. The experience feels richer because the movement is choreographed, not decorative.",
+      "Directional motion and a denser surface change the emotional temperature. The page stops feeling like stacked blocks and starts feeling sequenced.",
     detail:
-      "This is where the interface starts behaving like a story arc instead of a stack of sections.",
-    accent: "Parallax Field",
+      "A subtle left-right alternation gives the eye a path to follow while the background drifts beneath the content.",
+    accent: "Motion Contrast",
     direction: "right" as const,
-    tone: "muted" as const
+    metric: "4.8s",
+    metricLabel: "Rhythm pulse"
+  },
+  {
+    id: "beat-focus",
+    eyebrow: "Chapter 03",
+    title: "Reduce the noise until the message lands with weight.",
+    description:
+      "By the final story beat, the interface should feel distilled. Fewer elements, stronger hierarchy, and smoother transitions give the product its premium edge.",
+    detail:
+      "The best landing pages do not overwhelm. They guide, pause, and reveal at the exact moment the user is ready.",
+    accent: "Editorial Focus",
+    direction: "left" as const,
+    metric: "12px",
+    metricLabel: "Micro motion lift"
   }
 ];
 
@@ -37,20 +51,16 @@ export default function Home() {
   return (
     <main className="relative isolate overflow-hidden bg-[#050505] text-white">
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.11),transparent_0),radial-gradient(circle_at_80%_20%,rgba(160,160,180,0.16),transparent_28%),linear-gradient(180deg,#050505_0%,#09090b_45%,#030303_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.11),transparent_0),radial-gradient(circle_at_80%_20%,rgba(160,160,180,0.16),transparent_28%),radial-gradient(circle_at_50%_55%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(180deg,#050505_0%,#09090b_40%,#030303_100%)]" />
         <div className="absolute inset-0 bg-grid-fade bg-[size:96px_96px] opacity-[0.035]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(5,5,5,0.6)_100%)]" />
       </div>
 
       <ScrollProgress />
       <HeroSection />
-
-      {storySections.map((section) => (
-        <StorySection key={section.id} {...section} />
-      ))}
-
-      <StickySection />
-      <MotionSection />
+      <StoryFlowSection beats={storyBeats} />
+      <ParallaxSection />
+      <StickyStorySection />
       <CTASection />
     </main>
   );

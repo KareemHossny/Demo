@@ -25,6 +25,7 @@ body {
   font-family: "Aptos", "Segoe UI Variable Text", "Segoe UI", sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 body::before {
@@ -96,5 +97,11 @@ body::before {
 
   .section-shell {
     @apply relative mx-auto w-full max-w-[90rem] px-6 md:px-10 lg:px-16;
+  }
+
+  .story-glow {
+    background:
+      radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 42%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
   }
 }
