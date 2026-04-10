@@ -15,6 +15,7 @@
 
 html {
   background: var(--background);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -33,11 +34,12 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.18;
+  opacity: 0.22;
   background-image:
     radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.06), transparent 35%),
     radial-gradient(circle at 80% 12%, rgba(255, 255, 255, 0.04), transparent 32%),
-    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.04), transparent 45%);
+    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.04), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.025), transparent 52%);
 }
 
 body::after {
@@ -114,9 +116,13 @@ body::after {
 
   .panel-surface {
     background:
+      radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 34%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
       rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(18px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 26px 90px rgba(0, 0, 0, 0.22);
   }
 
   .section-shell {
@@ -138,5 +144,43 @@ body::after {
       rgba(255, 255, 255, 0.02) 65%,
       transparent 100%
     );
+  }
+
+  .page-aura {
+    background:
+      radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.14), transparent 28%),
+      radial-gradient(circle at 76% 18%, rgba(200, 200, 220, 0.12), transparent 26%),
+      radial-gradient(circle at 52% 58%, rgba(255, 255, 255, 0.08), transparent 32%);
+    filter: blur(36px);
+    animation: aura-shift 24s ease-in-out infinite alternate;
+  }
+
+  .page-noise {
+    background-image:
+      radial-gradient(rgba(255, 255, 255, 0.08) 0.6px, transparent 0.6px),
+      radial-gradient(rgba(255, 255, 255, 0.05) 0.6px, transparent 0.6px);
+    background-position: 0 0, 14px 14px;
+    background-size: 22px 22px;
+    mix-blend-mode: soft-light;
+  }
+}
+
+@keyframes aura-shift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+  }
+
+  100% {
+    transform: translate3d(2%, 2%, 0) scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body::after {
+    animation: none;
   }
 }

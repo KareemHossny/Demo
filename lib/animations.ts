@@ -47,9 +47,9 @@ export function createReveal(
   options: RevealOptions = {}
 ) {
   const {
-    y = 48,
+    y = 80,
     duration = 1.1,
-    start = "top 78%",
+    start = "top 80%",
     stagger = 0.12,
     ease = "power3.out"
   } = options;

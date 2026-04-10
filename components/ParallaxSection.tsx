@@ -10,23 +10,45 @@ const layerCards = [
     className:
       "left-[8%] top-[12%] w-[14rem] md:w-[16rem] rounded-[1.6rem] border border-white/[0.08] bg-black/[0.36] p-5",
     label: "Background layer",
-    title: "The base motion stays slow and atmospheric."
+    title: "The slowest surface keeps the mood cinematic instead of busy."
   },
   {
     speed: 0.85,
     className:
       "right-[10%] top-[20%] w-[18rem] md:w-[20rem] rounded-[1.8rem] border border-white/[0.08] bg-white/[0.05] p-6",
-    label: "Mid layer",
-    title: "Cards drift at a different pace to create depth."
+    label: "Middle layer",
+    title: "Mid-speed motion makes the section feel deep without looking mechanical."
   },
   {
     speed: 1.2,
     className:
       "left-[18%] bottom-[12%] w-[16rem] md:w-[18rem] rounded-[1.6rem] border border-white/[0.08] bg-black/[0.42] p-5",
     label: "Foreground layer",
-    title: "The fastest element leads the eye toward the CTA."
+    title: "The closest element does the guiding while everything else supports it."
   }
 ];
+
+type ParallaxMotionSettings = {
+  blendStartOpacity: number;
+  blendEndOpacity: number;
+  blendStartY: number;
+  blendEndY: number;
+  shellScale: number;
+  shellBlur: number;
+  copyDriftFrom: number;
+  copyDriftTo: number;
+  copyScrub: number;
+  sheenFrom: number;
+  sheenTo: number;
+  sheenAlpha: number;
+  layerStart: number;
+  layerEnd: number;
+  layerTravel: number;
+  rotateStart: number;
+  rotateEnd: number;
+  scrubBase: number;
+  scrubFactor: number;
+};
 
 function renderWords(text: string, prefix: string) {
   return (
@@ -52,10 +74,10 @@ export function ParallaxSection() {
       return;
     }
 
-    const { gsap } = initGSAP();
+    const { gsap, ScrollTrigger } = initGSAP();
 
     const ctx = gsap.context(() => {
-      const shell = section.querySelector("[data-parallax-shell]");
+      const shell = section.querySelector<HTMLElement>("[data-parallax-shell]");
       const layers = gsap.utils.toArray<HTMLElement>("[data-parallax-layer]");
 
       if (reducedMotion()) {
@@ -66,13 +88,15 @@ export function ParallaxSection() {
             "[data-parallax-copy-block]",
             "[data-parallax-shell]",
             "[data-parallax-layer]",
-            "[data-parallax-sheen]"
+            "[data-parallax-sheen]",
+            "[data-parallax-line]"
           ],
           {
             autoAlpha: 1,
             y: 0,
             yPercent: 0,
             scale: 1,
+            scaleX: 1,
             filter: "blur(0px)"
           }
         );
@@ -80,128 +104,200 @@ export function ParallaxSection() {
         return;
       }
 
-      if (shell) {
-        createSectionBlend(shell, section, {
-          scrub: 1.2,
-          yStart: 9,
-          yEnd: -6,
-          opacityStart: 0.45,
-          opacityEnd: 0.7
-        });
-      }
-
-      gsap.fromTo(
-        "[data-parallax-word]",
-        {
-          autoAlpha: 0,
-          yPercent: 110,
-          filter: "blur(16px)"
-        },
-        {
-          autoAlpha: 1,
-          yPercent: 0,
-          filter: "blur(0px)",
-          duration: 1,
-          stagger: 0.03,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 76%"
-          }
+      const animateScene = (settings: ParallaxMotionSettings) => {
+        if (shell) {
+          createSectionBlend(shell, section, {
+            scrub: settings.copyScrub,
+            yStart: settings.blendStartY,
+            yEnd: settings.blendEndY,
+            opacityStart: settings.blendStartOpacity,
+            opacityEnd: settings.blendEndOpacity,
+            scaleStart: 0.984,
+            scaleEnd: 0.992
+          });
         }
-      );
-
-      gsap.fromTo(
-        "[data-parallax-copy]",
-        { autoAlpha: 0, y: 26 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 72%"
-          }
-        }
-      );
-
-      gsap.fromTo(
-        "[data-parallax-copy-block]",
-        { yPercent: 6 },
-        {
-          yPercent: -6,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2
-          }
-        }
-      );
-
-      gsap.fromTo(
-        "[data-parallax-shell]",
-        {
-          autoAlpha: 0,
-          scale: 0.96,
-          y: 36,
-          filter: "blur(18px)"
-        },
-        {
-          autoAlpha: 1,
-          scale: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 72%"
-          }
-        }
-      );
-
-      gsap.fromTo(
-        "[data-parallax-sheen]",
-        { xPercent: -22, autoAlpha: 0 },
-        {
-          xPercent: 18,
-          autoAlpha: 0.36,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2
-          }
-        }
-      );
-
-      layers.forEach((layer) => {
-        const speed = Number(layer.dataset.speed ?? 1);
 
         gsap.fromTo(
-          layer,
+          "[data-parallax-word]",
           {
-            yPercent: -6 * speed,
-            rotate: -1 * speed
+            autoAlpha: 0,
+            yPercent: 110,
+            filter: "blur(16px)"
           },
           {
-            yPercent: 13 * speed,
-            y: 26 * speed,
-            rotate: 1.5 * speed,
+            autoAlpha: 1,
+            yPercent: 0,
+            filter: "blur(0px)",
+            duration: 1.08,
+            stagger: 0.032,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%"
+            }
+          }
+        );
+
+        gsap.fromTo(
+          "[data-parallax-copy]",
+          {
+            autoAlpha: 0,
+            y: 80,
+            filter: "blur(12px)"
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.92,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%"
+            }
+          }
+        );
+
+        gsap.fromTo(
+          "[data-parallax-line]",
+          { scaleX: 0, transformOrigin: "left center" },
+          {
+            scaleX: 1,
+            duration: 1.14,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%"
+            }
+          }
+        );
+
+        gsap.fromTo(
+          "[data-parallax-copy-block]",
+          { yPercent: settings.copyDriftFrom },
+          {
+            yPercent: settings.copyDriftTo,
             ease: "none",
             scrollTrigger: {
               trigger: section,
               start: "top bottom",
               end: "bottom top",
-              scrub: 1 + speed * 0.25
+              scrub: settings.copyScrub
             }
           }
         );
+
+        gsap.fromTo(
+          "[data-parallax-shell]",
+          {
+            autoAlpha: 0,
+            scale: settings.shellScale,
+            y: 80,
+            filter: `blur(${settings.shellBlur}px)`
+          },
+          {
+            autoAlpha: 1,
+            scale: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1.14,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%"
+            }
+          }
+        );
+
+        gsap.fromTo(
+          "[data-parallax-sheen]",
+          { xPercent: settings.sheenFrom, autoAlpha: 0 },
+          {
+            xPercent: settings.sheenTo,
+            autoAlpha: settings.sheenAlpha,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: settings.copyScrub
+            }
+          }
+        );
+
+        layers.forEach((layer) => {
+          const speed = Number(layer.dataset.speed ?? 1);
+
+          gsap.fromTo(
+            layer,
+            {
+              yPercent: -settings.layerStart * speed,
+              rotate: -settings.rotateStart * speed
+            },
+            {
+              yPercent: settings.layerEnd * speed,
+              y: settings.layerTravel * speed,
+              rotate: settings.rotateEnd * speed,
+              ease: "none",
+              scrollTrigger: {
+                trigger: section,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: settings.scrubBase + speed * settings.scrubFactor
+              }
+            }
+          );
+        });
+      };
+
+      ScrollTrigger.matchMedia({
+        "(max-width: 767px)": () => {
+          animateScene({
+            blendStartOpacity: 0.56,
+            blendEndOpacity: 0.72,
+            blendStartY: 6,
+            blendEndY: -4,
+            shellScale: 0.985,
+            shellBlur: 14,
+            copyDriftFrom: 4,
+            copyDriftTo: -3,
+            copyScrub: 1,
+            sheenFrom: -12,
+            sheenTo: 12,
+            sheenAlpha: 0.24,
+            layerStart: 3,
+            layerEnd: 8,
+            layerTravel: 18,
+            rotateStart: 0.35,
+            rotateEnd: 0.75,
+            scrubBase: 0.92,
+            scrubFactor: 0.18
+          });
+        },
+        "(min-width: 768px)": () => {
+          animateScene({
+            blendStartOpacity: 0.4,
+            blendEndOpacity: 0.68,
+            blendStartY: 10,
+            blendEndY: -7,
+            shellScale: 0.958,
+            shellBlur: 18,
+            copyDriftFrom: 7,
+            copyDriftTo: -6,
+            copyScrub: 1.26,
+            sheenFrom: -24,
+            sheenTo: 20,
+            sheenAlpha: 0.38,
+            layerStart: 6,
+            layerEnd: 13,
+            layerTravel: 28,
+            rotateStart: 1,
+            rotateEnd: 1.65,
+            scrubBase: 1,
+            scrubFactor: 0.26
+          });
+        }
       });
     }, sectionRef);
 
@@ -210,7 +306,7 @@ export function ParallaxSection() {
 
   return (
     <section ref={sectionRef} className="section-shell py-24 md:py-36">
-      <div className="grid items-center gap-12 lg:grid-cols-[0.86fr_1.14fr]">
+      <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr]">
         <div data-parallax-copy-block className="will-change-transform">
           <p
             data-parallax-copy
@@ -219,22 +315,26 @@ export function ParallaxSection() {
             Parallax Depth
           </p>
           <h2 className="mt-5 max-w-3xl text-[2.8rem] font-semibold leading-[0.95] text-white sm:text-[3.4rem] md:text-[4.5rem]">
-            {renderWords("Layer the motion so the page feels dimensional, not flat.", "depth")}
+            {renderWords("Layer the motion so the page feels dimensional, not decorative.", "depth")}
           </h2>
           <p
             data-parallax-copy
             className="mt-7 max-w-xl text-pretty text-base leading-8 text-white/[0.64] sm:text-lg"
           >
-            Background surfaces drift slower than the foreground. That tiny
-            difference is enough to make the section feel richer without adding
-            visual clutter or resorting to heavy 3D.
+            Background surfaces drift slower than the foreground. That small
+            difference is enough to make the entire section feel richer without
+            leaning on heavy 3D or attention-seeking gimmicks.
           </p>
+          <div
+            data-parallax-line
+            className="mt-8 h-px w-36 bg-gradient-to-r from-white via-white/[0.42] to-transparent"
+          />
           <p
             data-parallax-copy
             className="mt-6 max-w-lg border-l border-white/[0.12] pl-5 text-sm leading-7 text-white/[0.52]"
           >
-            The effect works because it stays restrained. Depth is a feeling
-            here, not a gimmick.
+            Depth works best when it stays almost invisible. It should be felt
+            before it is consciously noticed.
           </p>
         </div>
 
@@ -250,6 +350,11 @@ export function ParallaxSection() {
           <div className="absolute inset-6 rounded-[2rem] border border-white/[0.08] bg-[linear-gradient(135deg,rgba(255,255,255,0.03),transparent)]" />
           <div
             data-parallax-layer
+            data-speed="0.22"
+            className="absolute inset-[12%] rounded-[2rem] border border-white/[0.05] will-change-transform"
+          />
+          <div
+            data-parallax-layer
             data-speed="0.38"
             className="absolute -left-[6%] top-[8%] h-36 w-36 rounded-full bg-white/[0.08] blur-[80px] will-change-transform"
           />
@@ -258,11 +363,10 @@ export function ParallaxSection() {
             data-speed="0.52"
             className="absolute bottom-[10%] right-[12%] h-44 w-44 rounded-full bg-zinc-300/[0.08] blur-[95px] will-change-transform"
           />
-
           <div
             data-parallax-layer
-            data-speed="0.25"
-            className="absolute inset-[10%] rounded-[2rem] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_40%)] will-change-transform"
+            data-speed="0.3"
+            className="absolute left-[18%] top-[18%] h-px w-[24%] bg-gradient-to-r from-transparent via-white/[0.28] to-transparent will-change-transform"
           />
 
           {layerCards.map((layer) => (
@@ -290,10 +394,11 @@ export function ParallaxSection() {
               Foreground focus
             </p>
             <p className="mt-4 text-2xl font-semibold leading-tight">
-              The scroll should feel guided, not random.
+              The scroll should feel guided, never random.
             </p>
             <p className="mt-4 text-sm leading-6 text-black/66">
-              Premium experiences reward patience with deliberate pacing.
+              Premium experiences reward patience with deliberate pacing and
+              better hierarchy.
             </p>
           </div>
         </div>

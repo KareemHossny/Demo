@@ -57,6 +57,7 @@ export function ScrollProgress() {
       />
       <div ref={glowRef} className="absolute inset-y-0 left-0 w-full">
         <div className="absolute right-0 top-1/2 h-3 w-16 -translate-y-1/2 rounded-full bg-white/[0.42] blur-md" />
+        <div className="absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white shadow-[0_0_18px_rgba(255,255,255,0.45)]" />
       </div>
     </div>
   );

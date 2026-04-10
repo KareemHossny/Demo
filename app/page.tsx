@@ -1,9 +1,9 @@
 import { CTASection } from "@/components/CTASection";
 import { HeroSection } from "@/components/HeroSection";
 import { ParallaxSection } from "@/components/ParallaxSection";
+import { ScrollRevealSection } from "@/components/ScrollRevealSection";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { StickyStorySection } from "@/components/StickyStorySection";
-import { StoryFlowSection } from "@/components/StoryFlowSection";
 
 const storyBeats = [
   {
@@ -17,7 +17,10 @@ const storyBeats = [
     accent: "Atmosphere",
     direction: "left" as const,
     metric: "91%",
-    metricLabel: "Attention hold"
+    metricLabel: "Attention hold",
+    signals: ["Quiet confidence", "Measured reveals", "Product-first pacing"] as const,
+    insight:
+      "The first section should feel expensive before it asks for attention. Space and timing do the convincing."
   },
   {
     id: "beat-contrast",
@@ -30,7 +33,10 @@ const storyBeats = [
     accent: "Motion Contrast",
     direction: "right" as const,
     metric: "4.8s",
-    metricLabel: "Rhythm pulse"
+    metricLabel: "Rhythm pulse",
+    signals: ["Directional tension", "Layered surfaces", "Controlled contrast"] as const,
+    insight:
+      "The user should feel the page changing temperature, not jumping between unrelated blocks."
   },
   {
     id: "beat-focus",
@@ -43,7 +49,10 @@ const storyBeats = [
     accent: "Editorial Focus",
     direction: "left" as const,
     metric: "12px",
-    metricLabel: "Micro motion lift"
+    metricLabel: "Micro motion lift",
+    signals: ["Lower visual noise", "Sharper hierarchy", "More deliberate pauses"] as const,
+    insight:
+      "The closer the story gets to its final point, the more restraint matters. Premium pages know when to go quiet."
   }
 ];
 
@@ -52,13 +61,15 @@ export default function Home() {
     <main className="relative isolate overflow-hidden bg-[#050505] text-white">
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.11),transparent_0),radial-gradient(circle_at_80%_20%,rgba(160,160,180,0.16),transparent_28%),radial-gradient(circle_at_50%_55%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(180deg,#050505_0%,#09090b_40%,#030303_100%)]" />
+        <div className="page-aura absolute inset-[-10%] opacity-[0.42]" />
         <div className="absolute inset-0 bg-grid-fade bg-[size:96px_96px] opacity-[0.035]" />
+        <div className="page-noise absolute inset-0 opacity-[0.08]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(5,5,5,0.6)_100%)]" />
       </div>
 
       <ScrollProgress />
       <HeroSection />
-      <StoryFlowSection beats={storyBeats} />
+      <ScrollRevealSection beats={storyBeats} />
       <ParallaxSection />
       <StickyStorySection />
       <CTASection />
