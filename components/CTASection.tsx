@@ -53,6 +53,38 @@ export function CTASection() {
         }
       );
 
+      gsap.fromTo(
+        "[data-cta-shell]",
+        { yPercent: 8, scale: 0.986 },
+        {
+          yPercent: -4,
+          scale: 1.01,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.15
+          }
+        }
+      );
+
+      gsap.fromTo(
+        "[data-cta-sheen]",
+        { xPercent: -18, autoAlpha: 0 },
+        {
+          xPercent: 16,
+          autoAlpha: 0.4,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.15
+          }
+        }
+      );
+
       gsap.to("[data-cta-pulse]", {
         scale: 1.08,
         opacity: 0.72,
@@ -68,10 +100,17 @@ export function CTASection() {
 
   return (
     <section ref={sectionRef} id="cta" className="section-shell py-24 md:py-36">
-      <div className="relative overflow-hidden rounded-[2.6rem] border border-white/[0.08] bg-white px-6 py-14 text-black shadow-[0_35px_120px_rgba(255,255,255,0.09)] md:px-12 md:py-20">
+      <div
+        data-cta-shell
+        className="relative overflow-hidden rounded-[2.6rem] border border-white/[0.08] bg-white px-6 py-14 text-black shadow-[0_35px_120px_rgba(255,255,255,0.09)] will-change-transform md:px-12 md:py-20"
+      >
         <div
           data-cta-pulse
           className="absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/[0.06] blur-[50px]"
+        />
+        <div
+          data-cta-sheen
+          className="sheen-overlay absolute inset-y-[10%] left-[-10%] w-[34%] opacity-0 blur-2xl"
         />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/[0.3] to-transparent" />
 

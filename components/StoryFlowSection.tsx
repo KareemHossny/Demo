@@ -2,7 +2,12 @@
 
 import { useLayoutEffect, useRef } from "react";
 
-import { createParallax, initGSAP, reducedMotion } from "@/lib/animations";
+import {
+  createParallax,
+  createSectionBlend,
+  initGSAP,
+  reducedMotion
+} from "@/lib/animations";
 
 type StoryBeat = {
   id: string;
@@ -61,9 +66,12 @@ export function StoryFlowSection({ beats }: StoryFlowSectionProps) {
             "[data-flow-head]",
             "[data-beat-word]",
             "[data-beat-copy]",
+            "[data-beat-chip]",
+            "[data-beat-shell]",
             "[data-beat-panel]",
             "[data-beat-card]",
-            "[data-beat-line]"
+            "[data-beat-line]",
+            "[data-beat-sheen]"
           ],
           {
             autoAlpha: 1,
@@ -96,15 +104,36 @@ export function StoryFlowSection({ beats }: StoryFlowSectionProps) {
       );
 
       chapters.forEach((chapter) => {
+        const shell = chapter.querySelector("[data-beat-shell]");
         const words = chapter.querySelectorAll("[data-beat-word]");
         const copies = chapter.querySelectorAll("[data-beat-copy]");
+        const chips = chapter.querySelectorAll("[data-beat-chip]");
         const panel = chapter.querySelector("[data-beat-panel]");
         const cards = chapter.querySelectorAll("[data-beat-card]");
         const line = chapter.querySelector("[data-beat-line]");
         const halo = chapter.querySelector("[data-beat-halo]");
+        const sheen = chapter.querySelector("[data-beat-sheen]");
         const direction = chapter.dataset.direction === "right" ? -1 : 1;
 
-        gsap.fromTo(
+        if (shell) {
+          createSectionBlend(shell, chapter, {
+            scrub: 1.2,
+            yStart: 11,
+            yEnd: -7,
+            opacityStart: 0.4,
+            opacityEnd: 0.6
+          });
+        }
+
+        const revealTl = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: {
+            trigger: chapter,
+            start: "top 77%"
+          }
+        });
+
+        revealTl.fromTo(
           words,
           {
             autoAlpha: 0,
@@ -115,67 +144,77 @@ export function StoryFlowSection({ beats }: StoryFlowSectionProps) {
             autoAlpha: 1,
             yPercent: 0,
             filter: "blur(0px)",
-            duration: 1,
+            duration: 1.12,
             stagger: 0.03,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: chapter,
-              start: "top 78%"
-            }
           }
         );
 
-        gsap.fromTo(
+        revealTl.fromTo(
           copies,
           { autoAlpha: 0, y: 24 },
           {
             autoAlpha: 1,
             y: 0,
-            duration: 0.75,
+            duration: 0.82,
             stagger: 0.12,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: chapter,
-              start: "top 74%"
-            }
+            ease: "power3.out"
           }
+        ,
+          "-=0.74"
         );
 
+        if (chips.length > 0) {
+          revealTl.fromTo(
+            chips,
+            { autoAlpha: 0, y: 18, scale: 0.98 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.65,
+              stagger: 0.08
+            },
+            "-=0.58"
+          );
+        }
+
         if (panel) {
-          gsap.fromTo(
+          revealTl.fromTo(
             panel,
             {
               autoAlpha: 0,
-              x: 54 * direction,
+              x: 62 * direction,
+              y: 18,
+              scale: 0.985,
               filter: "blur(18px)"
             },
             {
               autoAlpha: 1,
               x: 0,
+              y: 0,
+              scale: 1,
               filter: "blur(0px)",
-              duration: 1,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: chapter,
-                start: "top 74%"
-              }
+              duration: 1.08,
+              ease: "power3.out"
             }
+          ,
+            "-=1.02"
           );
         }
 
         if (cards.length > 0) {
           gsap.fromTo(
-            cards,
+          cards,
             { autoAlpha: 0, y: 26 },
             {
               autoAlpha: 1,
               y: 0,
-              duration: 0.8,
-              stagger: 0.12,
+              duration: 0.9,
+              stagger: 0.14,
               ease: "power3.out",
               scrollTrigger: {
                 trigger: chapter,
-                start: "top 70%"
+                start: "top 66%"
               }
             }
           );
@@ -187,7 +226,7 @@ export function StoryFlowSection({ beats }: StoryFlowSectionProps) {
             { scaleX: 0, transformOrigin: "left center" },
             {
               scaleX: 1,
-              duration: 1,
+              duration: 1.15,
               ease: "power3.out",
               scrollTrigger: {
                 trigger: chapter,
@@ -198,7 +237,48 @@ export function StoryFlowSection({ beats }: StoryFlowSectionProps) {
         }
 
         if (halo instanceof HTMLElement) {
-          createParallax(halo, chapter, 50);
+          createParallax(halo, chapter, 44, 1.35);
+        }
+
+        if (panel) {
+          gsap.fromTo(
+            panel,
+            {
+              yPercent: 6 * direction,
+              rotateY: 3 * direction,
+              rotateX: -1.5
+            },
+            {
+              yPercent: -4 * direction,
+              rotateY: -3 * direction,
+              rotateX: 1.5,
+              ease: "none",
+              scrollTrigger: {
+                trigger: chapter,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.25
+              }
+            }
+          );
+        }
+
+        if (sheen) {
+          gsap.fromTo(
+            sheen,
+            { xPercent: -18, autoAlpha: 0 },
+            {
+              xPercent: 18,
+              autoAlpha: 0.42,
+              ease: "none",
+              scrollTrigger: {
+                trigger: chapter,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.15
+              }
+            }
+          );
         }
       });
     }, sectionRef);
@@ -245,7 +325,10 @@ export function StoryFlowSection({ beats }: StoryFlowSectionProps) {
               data-direction={beat.direction}
               className="relative"
             >
-              <div className="grid items-center gap-12 lg:grid-cols-[0.96fr_1.04fr]">
+              <div
+                data-beat-shell
+                className="grid items-center gap-12 will-change-transform lg:grid-cols-[0.96fr_1.04fr]"
+              >
                 <div className={beat.direction === "right" ? "lg:order-2" : ""}>
                   <div
                     data-beat-halo
@@ -283,7 +366,7 @@ export function StoryFlowSection({ beats }: StoryFlowSectionProps) {
                       (item) => (
                         <span
                           key={`${beat.id}-${item}`}
-                          data-beat-copy
+                          data-beat-chip
                           className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-xs uppercase tracking-[0.22em] text-white/[0.5]"
                         >
                           {item}
@@ -298,6 +381,10 @@ export function StoryFlowSection({ beats }: StoryFlowSectionProps) {
                     data-beat-panel
                     className="panel-border panel-surface relative overflow-hidden rounded-[2rem] p-6 will-change-transform md:p-8"
                   >
+                    <div
+                      data-beat-sheen
+                      className="sheen-overlay absolute inset-y-0 left-[-12%] w-[40%] opacity-0 blur-2xl"
+                    />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.1),transparent_42%)] opacity-80" />
                     <div className="relative">
                       <div className="flex items-center justify-between">

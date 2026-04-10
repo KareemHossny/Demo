@@ -46,6 +46,8 @@ export function StickyStorySection() {
       const dots = gsap.utils.toArray<HTMLElement>("[data-sticky-dot]");
       const progress = section.querySelector<HTMLElement>("[data-sticky-progress]");
       const stage = section.querySelector<HTMLElement>("[data-sticky-stage]");
+      const shell = section.querySelector<HTMLElement>("[data-sticky-shell]");
+      const spotlight = section.querySelector<HTMLElement>("[data-sticky-spotlight]");
 
       if (reducedMotion()) {
         gsap.set(section, { height: "auto" });
@@ -71,6 +73,29 @@ export function StickyStorySection() {
         return;
       }
 
+      if (shell) {
+        gsap.fromTo(
+          shell,
+          {
+            autoAlpha: 0.72,
+            scale: 0.985,
+            y: 24,
+            filter: "blur(16px)"
+          },
+          {
+            autoAlpha: 1,
+            scale: 1,
+            y: 0,
+            filter: "blur(0px)",
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%"
+            }
+          }
+        );
+      }
+
       gsap.set(items, {
         autoAlpha: 0,
         y: 36,
@@ -83,7 +108,8 @@ export function StickyStorySection() {
           start: "top top",
           end: "bottom bottom",
           pin,
-          scrub: 1.05
+          scrub: 1.2,
+          anticipatePin: 1
         }
       });
 
@@ -96,7 +122,7 @@ export function StickyStorySection() {
             {
               backgroundColor: "rgba(255,255,255,0.96)",
               borderColor: "rgba(255,255,255,0.96)",
-              scale: 1.15,
+              scale: 1.18,
               duration: 0.18
             },
             index
@@ -108,8 +134,21 @@ export function StickyStorySection() {
             progress,
             {
               height: `${((index + 1) / items.length) * 100}%`,
-              duration: 0.35,
+              duration: 0.42,
               ease: "none"
+            },
+            index
+          );
+        }
+
+        if (spotlight) {
+          timeline.to(
+            spotlight,
+            {
+              yPercent: index * 26,
+              autoAlpha: 0.9 - index * 0.08,
+              duration: 0.42,
+              ease: "power2.inOut"
             },
             index
           );
@@ -121,7 +160,7 @@ export function StickyStorySection() {
             autoAlpha: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.46,
+            duration: 0.5,
             ease: "power3.out"
           },
           index + 0.08
@@ -134,7 +173,7 @@ export function StickyStorySection() {
               autoAlpha: 0.14,
               y: -24,
               filter: "blur(10px)",
-              duration: 0.34,
+              duration: 0.38,
               ease: "power2.inOut"
             },
             index + 0.72
@@ -154,8 +193,13 @@ export function StickyStorySection() {
     >
       <div
         ref={pinRef}
+        data-sticky-shell
         className="panel-border panel-surface flex h-screen overflow-hidden rounded-[2.4rem]"
       >
+        <div
+          data-sticky-spotlight
+          className="absolute left-[18%] top-[12%] h-52 w-52 rounded-full bg-white/[0.14] blur-[95px]"
+        />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.14),transparent_42%)] opacity-80" />
 
         <div className="relative grid h-full w-full gap-12 px-6 py-10 md:px-10 lg:grid-cols-[0.34fr_1fr] lg:px-14 lg:py-14">

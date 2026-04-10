@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 
-import { initGSAP, reducedMotion } from "@/lib/animations";
+import { createSectionBlend, initGSAP, reducedMotion } from "@/lib/animations";
 
 const layerCards = [
   {
@@ -55,6 +55,7 @@ export function ParallaxSection() {
     const { gsap } = initGSAP();
 
     const ctx = gsap.context(() => {
+      const shell = section.querySelector("[data-parallax-shell]");
       const layers = gsap.utils.toArray<HTMLElement>("[data-parallax-layer]");
 
       if (reducedMotion()) {
@@ -62,8 +63,10 @@ export function ParallaxSection() {
           [
             "[data-parallax-word]",
             "[data-parallax-copy]",
+            "[data-parallax-copy-block]",
             "[data-parallax-shell]",
-            "[data-parallax-layer]"
+            "[data-parallax-layer]",
+            "[data-parallax-sheen]"
           ],
           {
             autoAlpha: 1,
@@ -75,6 +78,16 @@ export function ParallaxSection() {
         );
 
         return;
+      }
+
+      if (shell) {
+        createSectionBlend(shell, section, {
+          scrub: 1.2,
+          yStart: 9,
+          yEnd: -6,
+          opacityStart: 0.45,
+          opacityEnd: 0.7
+        });
       }
 
       gsap.fromTo(
@@ -115,6 +128,21 @@ export function ParallaxSection() {
       );
 
       gsap.fromTo(
+        "[data-parallax-copy-block]",
+        { yPercent: 6 },
+        {
+          yPercent: -6,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2
+          }
+        }
+      );
+
+      gsap.fromTo(
         "[data-parallax-shell]",
         {
           autoAlpha: 0,
@@ -132,6 +160,22 @@ export function ParallaxSection() {
           scrollTrigger: {
             trigger: section,
             start: "top 72%"
+          }
+        }
+      );
+
+      gsap.fromTo(
+        "[data-parallax-sheen]",
+        { xPercent: -22, autoAlpha: 0 },
+        {
+          xPercent: 18,
+          autoAlpha: 0.36,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2
           }
         }
       );
@@ -154,7 +198,7 @@ export function ParallaxSection() {
               trigger: section,
               start: "top bottom",
               end: "bottom top",
-              scrub: true
+              scrub: 1 + speed * 0.25
             }
           }
         );
@@ -167,7 +211,7 @@ export function ParallaxSection() {
   return (
     <section ref={sectionRef} className="section-shell py-24 md:py-36">
       <div className="grid items-center gap-12 lg:grid-cols-[0.86fr_1.14fr]">
-        <div>
+        <div data-parallax-copy-block className="will-change-transform">
           <p
             data-parallax-copy
             className="text-sm uppercase tracking-[0.32em] text-white/[0.38]"
@@ -198,8 +242,22 @@ export function ParallaxSection() {
           data-parallax-shell
           className="panel-border panel-surface relative min-h-[30rem] overflow-hidden rounded-[2.4rem] p-6 will-change-transform md:min-h-[38rem] md:p-8"
         >
+          <div
+            data-parallax-sheen
+            className="sheen-overlay absolute inset-y-[8%] left-[-10%] w-[38%] opacity-0 blur-2xl"
+          />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]" />
           <div className="absolute inset-6 rounded-[2rem] border border-white/[0.08] bg-[linear-gradient(135deg,rgba(255,255,255,0.03),transparent)]" />
+          <div
+            data-parallax-layer
+            data-speed="0.38"
+            className="absolute -left-[6%] top-[8%] h-36 w-36 rounded-full bg-white/[0.08] blur-[80px] will-change-transform"
+          />
+          <div
+            data-parallax-layer
+            data-speed="0.52"
+            className="absolute bottom-[10%] right-[12%] h-44 w-44 rounded-full bg-zinc-300/[0.08] blur-[95px] will-change-transform"
+          />
 
           <div
             data-parallax-layer

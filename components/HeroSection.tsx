@@ -60,7 +60,7 @@ export function HeroSection() {
             "[data-hero-actions]",
             "[data-hero-meta]",
             "[data-hero-stage]",
-            "[data-hero-panel]"
+            "[data-hero-card]"
           ],
           {
             autoAlpha: 1,
@@ -79,8 +79,8 @@ export function HeroSection() {
       intro
         .fromTo(
           "[data-hero-badge]",
-          { autoAlpha: 0, y: 22, filter: "blur(8px)" },
-          { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.65 }
+          { autoAlpha: 0, y: 18, filter: "blur(8px)" },
+          { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.8 }
         )
         .fromTo(
           "[data-hero-word]",
@@ -95,34 +95,40 @@ export function HeroSection() {
             yPercent: 0,
             filter: "blur(0px)",
             scale: 1,
-            duration: 1.05,
-            stagger: 0.045
+            duration: 1.18,
+            stagger: 0.038
           },
-          "-=0.2"
+          "-=0.28"
         )
         .fromTo(
           "[data-hero-copy]",
-          { autoAlpha: 0, y: 26, filter: "blur(10px)" },
-          { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
-          "-=0.55"
+          { autoAlpha: 0, y: 22, filter: "blur(10px)" },
+          { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.95 },
+          "-=0.72"
         )
         .fromTo(
           "[data-hero-actions]",
-          { autoAlpha: 0, y: 20 },
-          { autoAlpha: 1, y: 0, duration: 0.7 },
-          "-=0.45"
+          { autoAlpha: 0, y: 18 },
+          { autoAlpha: 1, y: 0, duration: 0.8 },
+          "-=0.62"
         )
         .fromTo(
           "[data-hero-meta]",
           { autoAlpha: 0, y: 18 },
-          { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.08 },
-          "-=0.45"
+          { autoAlpha: 1, y: 0, duration: 0.78, stagger: 0.07 },
+          "-=0.62"
         )
         .fromTo(
           "[data-hero-stage]",
-          { autoAlpha: 0, scale: 0.96, y: 32, filter: "blur(18px)" },
-          { autoAlpha: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 1.1 },
-          "-=0.8"
+          { autoAlpha: 0, scale: 0.965, y: 28, filter: "blur(18px)" },
+          { autoAlpha: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 1.25 },
+          "-=1.02"
+        )
+        .fromTo(
+          "[data-hero-sheen]",
+          { xPercent: -24, autoAlpha: 0 },
+          { xPercent: 0, autoAlpha: 1, duration: 1.1 },
+          "-=0.95"
         );
 
       gsap.to("[data-hero-glow='one']", {
@@ -169,29 +175,88 @@ export function HeroSection() {
         ease: "sine.inOut"
       });
 
-      gsap.to("[data-hero-stage]", {
-        yPercent: 12,
-        scale: 0.96,
-        autoAlpha: 0.55,
-        ease: "none",
+      gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
           end: "bottom top",
-          scrub: true
+          scrub: 1.2
         }
-      });
-
-      gsap.to("[data-hero-copy-block]", {
-        yPercent: -8,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "bottom top",
-          scrub: true
-        }
-      });
+      })
+        .to(
+          "[data-hero-copy-block]",
+          {
+            yPercent: -9,
+            autoAlpha: 0.94,
+            ease: "none"
+          },
+          0
+        )
+        .to(
+          "[data-hero-stage]",
+          {
+            yPercent: 11,
+            scale: 0.962,
+            autoAlpha: 0.48,
+            ease: "none"
+          },
+          0
+        )
+        .to(
+          "[data-hero-card='primary']",
+          {
+            yPercent: -12,
+            rotateX: 5,
+            rotateY: -4,
+            ease: "none"
+          },
+          0
+        )
+        .to(
+          "[data-hero-card='secondary']",
+          {
+            yPercent: 10,
+            rotateX: -3,
+            rotateY: 5,
+            ease: "none"
+          },
+          0
+        )
+        .to(
+          "[data-hero-card='tertiary']",
+          {
+            yPercent: 16,
+            ease: "none"
+          },
+          0
+        )
+        .to(
+          "[data-hero-glow='one']",
+          {
+            scale: 1.12,
+            autoAlpha: 0.7,
+            ease: "none"
+          },
+          0
+        )
+        .to(
+          "[data-hero-glow='two']",
+          {
+            scale: 1.18,
+            autoAlpha: 0.7,
+            ease: "none"
+          },
+          0
+        )
+        .to(
+          "[data-hero-sheen]",
+          {
+            xPercent: 16,
+            autoAlpha: 0.38,
+            ease: "none"
+          },
+          0
+        );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -275,7 +340,10 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div data-hero-stage className="relative min-h-[30rem] lg:min-h-[42rem]">
+        <div
+          data-hero-stage
+          className="relative min-h-[30rem] [perspective:1600px] lg:min-h-[42rem]"
+        >
           <div
             data-hero-glow="one"
             className="absolute left-[4%] top-[6%] h-48 w-48 rounded-full bg-white/[0.10] blur-[100px] will-change-transform md:h-72 md:w-72"
@@ -287,9 +355,13 @@ export function HeroSection() {
 
           <div className="absolute inset-[6%] rounded-[2.5rem] border border-white/[0.08] bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))]" />
           <div className="absolute inset-[12%] rounded-[2.5rem] border border-white/[0.08] shadow-glow" />
+          <div
+            data-hero-sheen
+            className="sheen-overlay absolute inset-y-[10%] left-[4%] w-[34%] rounded-full opacity-0 blur-2xl"
+          />
 
           <div
-            data-hero-panel
+            data-hero-card="primary"
             data-hero-float="one"
             className="panel-border panel-surface absolute left-[8%] top-[12%] w-[78%] rounded-[2rem] p-6 will-change-transform md:p-8"
           >
@@ -324,6 +396,7 @@ export function HeroSection() {
 
           <div
             data-hero-float="two"
+            data-hero-card="secondary"
             className="panel-border panel-surface absolute right-[4%] top-[12%] w-[14rem] rounded-[1.6rem] p-4 will-change-transform"
           >
             <p className="text-xs uppercase tracking-[0.26em] text-white/[0.36]">
@@ -338,7 +411,8 @@ export function HeroSection() {
 
           <div
             data-hero-float="three"
-            className="absolute bottom-[10%] left-[6%] w-[15rem] rounded-[1.6rem] border border-white/[0.08] bg-black/[0.35] p-5 backdrop-blur"
+            data-hero-card="tertiary"
+            className="absolute bottom-[10%] left-[6%] w-[15rem] rounded-[1.6rem] border border-white/[0.08] bg-black/[0.35] p-5 backdrop-blur will-change-transform"
           >
             <p className="text-xs uppercase tracking-[0.28em] text-white/[0.34]">
               Premium touch
