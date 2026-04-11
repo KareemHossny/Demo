@@ -20,7 +20,7 @@ const productLayers = [
     title: "Measured tension",
     eyebrow: "Rising rhythm",
     copy:
-      "Motion then starts to guide the eye in small increments, turning the existing layout into a paced reveal instead of a stack of sections."
+      "Motion then starts guiding the eye in small increments, turning the existing layout into a paced reveal instead of a stack of sections."
   },
   {
     index: "03",
@@ -55,19 +55,22 @@ const journeyPoints = [
 export default function Home() {
   return (
     <SmoothScrollShell>
-      <main className="relative isolate overflow-hidden bg-[#050505] text-white">
+      <main className="relative isolate overflow-hidden bg-[#050608] text-white">
         <div className="pointer-events-none fixed inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.11),transparent_0),radial-gradient(circle_at_80%_20%,rgba(160,160,180,0.16),transparent_28%),radial-gradient(circle_at_50%_55%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(180deg,#050505_0%,#09090b_40%,#030303_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.1),transparent_14%),radial-gradient(circle_at_82%_18%,rgba(188,196,212,0.14),transparent_26%),radial-gradient(circle_at_50%_54%,rgba(255,255,255,0.06),transparent_34%),linear-gradient(180deg,#050608_0%,#090b10_42%,#040506_100%)]" />
           <div className="page-aura absolute inset-[-10%] opacity-[0.42]" />
           <div className="absolute inset-0 bg-grid-fade bg-[size:96px_96px] opacity-[0.035]" />
           <div className="page-noise absolute inset-0 opacity-[0.08]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(5,5,5,0.6)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_22%,rgba(5,6,8,0.62)_100%)]" />
         </div>
 
         <ScrollProgress />
         <HeroSection />
+        <div className="section-shell">
+          <div className="section-divider opacity-70" />
+        </div>
 
-        <ScrollReveal id="story-flow" className="section-shell py-28 md:py-36">
+        <ScrollReveal id="story-flow" className="section-shell -mt-4 py-24 md:-mt-8 md:py-32">
           <section className="panel-border panel-surface relative overflow-hidden rounded-[2.8rem] p-6 md:p-10 lg:p-12">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.09),transparent_24%),radial-gradient(circle_at_88%_26%,rgba(180,180,200,0.09),transparent_20%)]" />
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.24] to-transparent" />
@@ -100,13 +103,13 @@ export default function Home() {
                   data-reveal-direction="left"
                   className="reveal mt-8 flex flex-wrap gap-3 text-[0.68rem] uppercase tracking-[0.24em] text-white/[0.42]"
                 >
-                  <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2">
+                  <span className="interactive-pill rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2">
                     Cleaner handoffs
                   </span>
-                  <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2">
+                  <span className="interactive-pill rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2">
                     Slower breath
                   </span>
-                  <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2">
+                  <span className="interactive-pill rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2">
                     Higher perceived craft
                   </span>
                 </div>
@@ -119,7 +122,7 @@ export default function Home() {
                     data-reveal-direction={
                       index === 0 ? "left" : index === 1 ? "up" : "right"
                     }
-                    className={`reveal relative overflow-hidden rounded-[1.9rem] border border-white/[0.08] p-6 transition-all duration-500 hover:-translate-y-2 hover:border-white/[0.16] hover:shadow-[0_30px_80px_rgba(0,0,0,0.24)] will-change-transform ${
+                    className={`interactive-card reveal relative overflow-hidden rounded-[1.9rem] border border-white/[0.08] p-6 will-change-transform ${
                       index === 1
                         ? "bg-white/[0.06] md:-translate-y-6"
                         : "bg-white/[0.025]"
@@ -145,7 +148,7 @@ export default function Home() {
           </section>
         </ScrollReveal>
 
-        <ScrollReveal id="journey-points" className="section-shell py-28 md:py-36">
+        <ScrollReveal id="journey-points" className="section-shell -mt-4 py-24 md:-mt-8 md:py-32">
           <section className="relative overflow-hidden rounded-[2.7rem] border border-white/[0.08] bg-white/[0.02] p-6 md:p-10 lg:p-12">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_14%,rgba(255,255,255,0.07),transparent_24%),radial-gradient(circle_at_82%_82%,rgba(255,255,255,0.04),transparent_28%)]" />
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.16] to-transparent" />
@@ -180,7 +183,7 @@ export default function Home() {
                 <div
                   key={point.label}
                   data-reveal-direction={index === 1 ? "up" : "left"}
-                  className="reveal rounded-full border border-white/[0.08] bg-black/[0.2] px-4 py-2"
+                  className="interactive-pill reveal rounded-full border border-white/[0.08] bg-black/[0.2] px-4 py-2"
                 >
                   0{index + 1} / {point.label}
                 </div>
@@ -190,11 +193,11 @@ export default function Home() {
             <div className="mt-10 grid gap-4 md:grid-cols-3">
               {journeyPoints.map((point, index) => (
                 <article
-                  key={point.label}
-                  data-reveal-direction={
-                    index === 0 ? "left" : index === 1 ? "up" : "right"
-                  }
-                  className={`reveal relative overflow-hidden rounded-[1.7rem] border border-white/[0.08] p-6 transition-all duration-500 hover:-translate-y-2 hover:border-white/[0.16] hover:shadow-[0_28px_70px_rgba(0,0,0,0.24)] will-change-transform ${
+                    key={point.label}
+                    data-reveal-direction={
+                      index === 0 ? "left" : index === 1 ? "up" : "right"
+                    }
+                  className={`interactive-card reveal relative overflow-hidden rounded-[1.7rem] border border-white/[0.08] p-6 will-change-transform ${
                     index === 1
                       ? "bg-white/[0.05] md:translate-y-6"
                       : "bg-black/[0.24]"

@@ -7,35 +7,35 @@ import { createSectionBlend, initGSAP, reducedMotion } from "@/lib/animations";
 const frames = [
   {
     index: "01",
-    label: "Opening tension",
-    title: "The page should feel composed before it feels animated.",
+    label: "Opening control",
+    title: "The page earns authority before the motion expands.",
     copy:
-      "The opening frame uses space, contrast, and delayed motion to create confidence before anything dramatic happens.",
-    accent: ["Bold type", "Soft light", "Measured intro"]
+      "This first panel establishes tone with typography, spacing, and contrast so the later movement feels deliberate rather than decorative.",
+    accent: ["Measured intro", "Clear hierarchy", "Quiet confidence"]
   },
   {
     index: "02",
-    label: "Narrative pull",
-    title: "Horizontal movement adds a new rhythm to the story.",
+    label: "Rhythm shift",
+    title: "A lateral chapter changes the cadence of the entire story.",
     copy:
-      "Instead of stacking another static block, the experience changes direction and makes the user feel a deliberate shift in pacing.",
-    accent: ["Pinned motion", "Wide composition", "Story beat"]
+      "Instead of stacking another vertical section, the experience pivots into a broader composition and immediately feels more directed.",
+    accent: ["Wide composition", "Pinned motion", "Cinematic midpoint"]
   },
   {
     index: "03",
-    label: "Product depth",
-    title: "Layered surfaces make premium motion feel tangible.",
+    label: "Depth cues",
+    title: "Layered surfaces make the motion feel tangible and expensive.",
     copy:
-      "Foreground and background elements move at different speeds so the scene feels spatial without becoming flashy.",
-    accent: ["Mid-layer drift", "Glass surfaces", "Depth cues"]
+      "Foreground and background elements drift at different rates, creating spatial richness without resorting to loud 3D tricks.",
+    accent: ["Glass surfaces", "Depth drift", "Focused foreground"]
   },
   {
     index: "04",
-    label: "Focused finish",
-    title: "By the end, the layout goes quieter so the message hits harder.",
+    label: "Quiet close",
+    title: "The final frame softens the motion so the message lands harder.",
     copy:
-      "That restraint is what separates a polished experience from a page that simply has more animation on it.",
-    accent: ["Calmer motion", "Sharper hierarchy", "Stronger close"]
+      "That restraint is what separates premium polish from a page that simply contains more animation than it needs.",
+    accent: ["Sharper memory", "Calmer motion", "Stronger finish"]
   }
 ];
 
@@ -352,17 +352,17 @@ export function HorizontalShowcaseSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="section-shell py-24 md:py-36">
+    <section ref={sectionRef} className="section-shell -mt-4 py-24 md:-mt-8 md:py-32">
       <div className="max-w-3xl">
         <p
           data-horizontal-copy
           className="text-sm uppercase tracking-[0.32em] text-white/[0.38]"
         >
-          Horizontal Chapter
+          Storyboard Chapter
         </p>
         <h2 className="mt-5 max-w-4xl text-[2.8rem] font-semibold leading-[0.95] text-white sm:text-[3.6rem] md:text-[4.8rem]">
           {renderWords(
-            "Change direction midway through the page so the story feels designed, not stacked.",
+            "Change direction midway through the page so the story feels edited, not stacked.",
             "horizontal"
           )}
         </h2>
@@ -370,9 +370,8 @@ export function HorizontalShowcaseSection() {
           data-horizontal-copy
           className="mt-7 max-w-2xl text-pretty text-base leading-8 text-white/[0.64] sm:text-lg"
         >
-          A horizontal sequence changes the rhythm of the scroll and gives the
-          product story a more cinematic midpoint before the parallax and pinned
-          scenes take over.
+          A horizontal sequence resets the eye and makes the midpoint feel
+          intentional. It is a pacing tool first, and a motion effect second.
         </p>
         <div
           data-horizontal-line
@@ -382,7 +381,7 @@ export function HorizontalShowcaseSection() {
 
       <div
         data-horizontal-shell
-        className="relative mt-14 overflow-hidden rounded-[2.6rem] border border-white/[0.08] bg-white/[0.025] p-4 md:p-6"
+        className="panel-border panel-surface relative mt-14 overflow-hidden rounded-[2.7rem] p-4 md:p-6"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_34%)]" />
         <div
@@ -452,7 +451,7 @@ export function HorizontalShowcaseSection() {
                       <div
                         key={item}
                         data-horizontal-item
-                        className="rounded-[1.2rem] border border-white/[0.08] bg-black/[0.24] px-4 py-3 text-sm uppercase tracking-[0.22em] text-white/[0.5]"
+                        className="interactive-card rounded-[1.2rem] border border-white/[0.08] bg-black/[0.24] px-4 py-3 text-sm uppercase tracking-[0.22em] text-white/[0.5]"
                       >
                         {item}
                       </div>
@@ -465,8 +464,8 @@ export function HorizontalShowcaseSection() {
         </div>
 
         <div className="relative mt-5 flex items-center justify-between px-1 text-[0.68rem] uppercase tracking-[0.24em] text-white/[0.28]">
-          <span>Midpoint rhythm shift</span>
-          <span>Scroll horizontally through the chapter</span>
+          <span>A deliberate change of pace</span>
+          <span>Scroll through the storyboard chapter</span>
         </div>
       </div>
     </section>

@@ -10,21 +10,21 @@ const layerCards = [
     className:
       "left-[8%] top-[12%] w-[14rem] md:w-[16rem] rounded-[1.6rem] border border-white/[0.08] bg-black/[0.36] p-5",
     label: "Background layer",
-    title: "The slowest surface keeps the mood cinematic instead of busy."
+    title: "The slowest surface holds the mood so the scene never becomes noisy."
   },
   {
     speed: 0.85,
     className:
       "right-[10%] top-[20%] w-[18rem] md:w-[20rem] rounded-[1.8rem] border border-white/[0.08] bg-white/[0.05] p-6",
     label: "Middle layer",
-    title: "Mid-speed motion makes the section feel deep without looking mechanical."
+    title: "Mid-speed motion adds spatial richness without looking engineered."
   },
   {
     speed: 1.2,
     className:
       "left-[18%] bottom-[12%] w-[16rem] md:w-[18rem] rounded-[1.6rem] border border-white/[0.08] bg-black/[0.42] p-5",
     label: "Foreground layer",
-    title: "The closest element does the guiding while everything else supports it."
+    title: "The closest layer guides attention while everything else stays supportive."
   }
 ];
 
@@ -349,25 +349,28 @@ export function ParallaxSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="section-shell py-24 md:py-36">
+    <section ref={sectionRef} className="section-shell -mt-4 py-24 md:-mt-8 md:py-32">
       <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr]">
         <div data-parallax-copy-block className="will-change-transform">
           <p
             data-parallax-copy
             className="text-sm uppercase tracking-[0.32em] text-white/[0.38]"
-          >
+        >
             Parallax Depth
           </p>
           <h2 className="mt-5 max-w-3xl text-[2.8rem] font-semibold leading-[0.95] text-white sm:text-[3.4rem] md:text-[4.5rem]">
-            {renderWords("Layer the motion so the page feels dimensional, not decorative.", "depth")}
+            {renderWords(
+              "Layer the motion so the page feels dimensional, not decorative.",
+              "depth"
+            )}
           </h2>
           <p
             data-parallax-copy
             className="mt-7 max-w-xl text-pretty text-base leading-8 text-white/[0.64] sm:text-lg"
           >
-            Background surfaces drift slower than the foreground. That gentle
-            difference makes the section feel spatial and tactile without
-            leaning on heavy 3D or attention-seeking gimmicks.
+            Background surfaces drift slower than the foreground, which makes
+            the section feel tactile and cinematic without leaning on gimmicks
+            or exaggerated perspective.
           </p>
           <div
             data-parallax-line
@@ -377,25 +380,25 @@ export function ParallaxSection() {
             data-parallax-copy
             className="mt-6 max-w-lg border-l border-white/[0.12] pl-5 text-sm leading-7 text-white/[0.52]"
           >
-            Depth works best when it stays almost invisible. It should be felt
-            before it is consciously noticed.
+            Depth works best when it stays almost invisible. The user should
+            feel the scene opening up before they start noticing the technique.
           </p>
           <div className="mt-8 flex flex-wrap gap-3 text-[0.68rem] uppercase tracking-[0.24em] text-white/[0.38]">
             <span
               data-parallax-copy
-              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
+              className="interactive-pill rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
             >
               Slow background
             </span>
             <span
               data-parallax-copy
-              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
+              className="interactive-pill rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
             >
               Mid-layer drift
             </span>
             <span
               data-parallax-copy
-              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
+              className="interactive-pill rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
             >
               Focused foreground
             </span>
@@ -446,7 +449,7 @@ export function ParallaxSection() {
               key={layer.label}
               data-parallax-layer
               data-speed={layer.speed}
-              className={`absolute will-change-transform ${layer.className}`}
+              className={`interactive-card absolute will-change-transform ${layer.className}`}
             >
               <p className="text-xs uppercase tracking-[0.28em] text-white/[0.34]">
                 {layer.label}
@@ -460,7 +463,7 @@ export function ParallaxSection() {
           <div
             data-parallax-layer
             data-speed="1.45"
-            className="absolute bottom-[8%] right-[8%] max-w-[19rem] rounded-[1.8rem] border border-white/[0.08] bg-white px-5 py-6 text-black shadow-[0_25px_80px_rgba(255,255,255,0.12)] will-change-transform"
+            className="interactive-card absolute bottom-[8%] right-[8%] max-w-[19rem] rounded-[1.8rem] border border-white/[0.08] bg-white px-5 py-6 text-black shadow-[0_25px_80px_rgba(255,255,255,0.12)] will-change-transform"
           >
             <p className="text-xs uppercase tracking-[0.3em] text-black/45">
               Foreground focus

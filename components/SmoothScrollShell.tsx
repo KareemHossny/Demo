@@ -38,10 +38,10 @@ export function SmoothScrollShell({ children }: SmoothScrollShellProps) {
           const smoother = ScrollSmoother.create({
             wrapper,
             content,
-            smooth: 1.42,
-            smoothTouch: 0.12,
+            smooth: 1.18,
+            smoothTouch: 0.08,
             normalizeScroll: true,
-            effects: true
+            effects: false
           });
 
           ScrollTrigger.refresh();

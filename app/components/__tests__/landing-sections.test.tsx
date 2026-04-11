@@ -91,8 +91,8 @@ describe("landing page animation components", () => {
 
     const heroHeading = screen.getByRole("heading", { level: 1 });
 
-    expect(heroHeading.textContent).toContain("Build");
-    expect(heroHeading.textContent).toContain("cinema");
+    expect(heroHeading.textContent).toContain("Launch");
+    expect(heroHeading.textContent).toContain("directed");
     expect(screen.getByText(/Enter the Story/i)).toBeTruthy();
   });
 

@@ -50,10 +50,10 @@ export function ScrollProgress() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-0 z-50 h-[2px] bg-white/[0.06]">
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-50 h-[2px] bg-white/[0.06] backdrop-blur">
       <div
         ref={barRef}
-        className="h-[2px] w-full bg-gradient-to-r from-white via-white/[0.55] to-white"
+        className="h-[2px] w-full bg-gradient-to-r from-white/[0.65] via-white to-white/[0.78]"
       />
       <div ref={glowRef} className="absolute inset-y-0 left-0 w-full">
         <div className="absolute right-0 top-1/2 h-3 w-16 -translate-y-1/2 rounded-full bg-white/[0.42] blur-md" />

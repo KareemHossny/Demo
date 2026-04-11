@@ -11,8 +11,7 @@ export function initGSAP() {
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
     gsap.config({
       autoSleep: 60,
-      nullTargetWarn: false,
-      force3D: true
+      nullTargetWarn: false
     });
     gsap.defaults({
       ease: "power3.out"
@@ -65,6 +64,108 @@ export function createReveal(
     {
       autoAlpha: 1,
       y: 0,
+      duration,
+      stagger,
+      filter: "blur(0px)",
+      ease,
+      scrollTrigger: {
+        trigger,
+        start
+      }
+    }
+  );
+}
+
+type FadeUpRevealOptions = {
+  y?: number;
+  x?: number;
+  duration?: number;
+  start?: string;
+  stagger?: number;
+  scale?: number;
+  blur?: number;
+  ease?: string;
+};
+
+export function createFadeUpReveal(
+  targets: gsap.TweenTarget,
+  trigger: Element,
+  options: FadeUpRevealOptions = {}
+) {
+  const {
+    y = 80,
+    x = 0,
+    duration = 1.04,
+    start = "top 80%",
+    stagger = 0.08,
+    scale = 0.985,
+    blur = 12,
+    ease = "power3.out"
+  } = options;
+
+  return gsap.fromTo(
+    targets,
+    {
+      autoAlpha: 0,
+      x,
+      y,
+      scale,
+      filter: `blur(${blur}px)`
+    },
+    {
+      autoAlpha: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration,
+      stagger,
+      filter: "blur(0px)",
+      ease,
+      scrollTrigger: {
+        trigger,
+        start
+      }
+    }
+  );
+}
+
+type WordRevealOptions = {
+  yPercent?: number;
+  duration?: number;
+  start?: string;
+  stagger?: number;
+  scale?: number;
+  blur?: number;
+  ease?: string;
+};
+
+export function createWordReveal(
+  targets: gsap.TweenTarget,
+  trigger: Element,
+  options: WordRevealOptions = {}
+) {
+  const {
+    yPercent = 112,
+    duration = 1.18,
+    start = "top 80%",
+    stagger = 0.032,
+    scale = 0.965,
+    blur = 16,
+    ease = "power3.out"
+  } = options;
+
+  return gsap.fromTo(
+    targets,
+    {
+      autoAlpha: 0,
+      yPercent,
+      scale,
+      filter: `blur(${blur}px)`
+    },
+    {
+      autoAlpha: 1,
+      yPercent: 0,
+      scale: 1,
       duration,
       stagger,
       filter: "blur(0px)",
