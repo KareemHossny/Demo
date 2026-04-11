@@ -89,7 +89,9 @@ export function HeroSection() {
             "[data-hero-divider]",
             "[data-hero-stage]",
             "[data-hero-card]",
-            "[data-hero-caption]"
+            "[data-hero-caption]",
+            "[data-hero-orbit]",
+            "[data-hero-orbit-core]"
           ],
           {
             autoAlpha: 1,
@@ -133,8 +135,8 @@ export function HeroSection() {
             yPercent: 0,
             filter: "blur(0px)",
             scale: 1,
-            duration: 1.28,
-            stagger: 0.042
+            duration: 1.36,
+            stagger: 0.038
           },
           "-=0.28"
         )
@@ -149,10 +151,10 @@ export function HeroSection() {
             autoAlpha: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 1.02,
-            stagger: 0.1
+            duration: 1.08,
+            stagger: 0.12
           },
-          "-=0.82"
+          "-=0.9"
         )
         .fromTo(
           "[data-hero-divider]",
@@ -162,9 +164,9 @@ export function HeroSection() {
           },
           {
             scaleX: 1,
-            duration: 1.08
+            duration: 1.18
           },
-          "-=0.72"
+          "-=0.82"
         )
         .fromTo(
           "[data-hero-actions]",
@@ -175,9 +177,9 @@ export function HeroSection() {
           {
             autoAlpha: 1,
             y: 0,
-            duration: 0.86
+            duration: 0.92
           },
-          "-=0.82"
+          "-=0.9"
         )
         .fromTo(
           "[data-hero-meta]",
@@ -190,10 +192,10 @@ export function HeroSection() {
             autoAlpha: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.9,
-            stagger: 0.09
+            duration: 0.96,
+            stagger: 0.08
           },
-          "-=0.74"
+          "-=0.78"
         )
         .fromTo(
           "[data-hero-stage]",
@@ -208,9 +210,39 @@ export function HeroSection() {
             scale: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 1.34
+            duration: 1.46
           },
-          "-=1.08"
+          "-=1.16"
+        )
+        .fromTo(
+          "[data-hero-orbit]",
+          {
+            autoAlpha: 0,
+            scale: 0.92,
+            filter: "blur(16px)"
+          },
+          {
+            autoAlpha: 0.62,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1.12
+          },
+          "-=1.02"
+        )
+        .fromTo(
+          "[data-hero-orbit-core]",
+          {
+            autoAlpha: 0,
+            y: 10,
+            scale: 0.7
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.88
+          },
+          "-=0.92"
         )
         .fromTo(
           "[data-hero-caption]",
@@ -221,9 +253,9 @@ export function HeroSection() {
           {
             autoAlpha: 1,
             y: 0,
-            duration: 0.82
+            duration: 0.88
           },
-          "-=0.98"
+          "-=1.02"
         )
         .fromTo(
           "[data-hero-sheen]",
@@ -234,15 +266,31 @@ export function HeroSection() {
           {
             xPercent: 0,
             autoAlpha: 1,
-            duration: 1.18
+            duration: 1.26
           },
-          "-=1.02"
+          "-=1.08"
         );
 
       gsap.to("[data-hero-stage-shell]", {
-        yPercent: -1.8,
-        scale: 1.008,
-        duration: 6.8,
+        yPercent: -2.4,
+        scale: 1.01,
+        duration: 7.6,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+
+      gsap.to("[data-hero-orbit]", {
+        rotate: 360,
+        duration: 26,
+        repeat: -1,
+        ease: "none"
+      });
+
+      gsap.to("[data-hero-orbit-core]", {
+        x: 16,
+        y: -12,
+        duration: 7.8,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut"
@@ -279,7 +327,7 @@ export function HeroSection() {
             .to(
               "[data-hero-copy-block]",
               {
-                yPercent: -5,
+                yPercent: -6,
                 autoAlpha: 0.94,
                 ease: "none"
               },
@@ -288,9 +336,18 @@ export function HeroSection() {
             .to(
               "[data-hero-stage]",
               {
-                yPercent: 8,
-                scale: 0.98,
-                autoAlpha: 0.72,
+                yPercent: 9,
+                scale: 0.978,
+                autoAlpha: 0.74,
+                ease: "none"
+              },
+              0
+            )
+            .to(
+              "[data-hero-orbit]",
+              {
+                scale: 1.06,
+                autoAlpha: 0.44,
                 ease: "none"
               },
               0
@@ -361,8 +418,8 @@ export function HeroSection() {
             .to(
               "[data-hero-copy-block]",
               {
-                yPercent: -10,
-                autoAlpha: 0.92,
+                yPercent: -12,
+                autoAlpha: 0.9,
                 ease: "none"
               },
               0
@@ -370,9 +427,9 @@ export function HeroSection() {
             .to(
               "[data-hero-stage]",
               {
-                yPercent: 12,
-                scale: 0.962,
-                autoAlpha: 0.44,
+                yPercent: 14,
+                scale: 0.956,
+                autoAlpha: 0.42,
                 ease: "none"
               },
               0
@@ -408,8 +465,28 @@ export function HeroSection() {
             .to(
               "[data-hero-grid]",
               {
-                yPercent: 8,
-                scale: 1.04,
+                yPercent: 10,
+                scale: 1.05,
+                ease: "none"
+              },
+              0
+            )
+            .to(
+              "[data-hero-orbit]",
+              {
+                scale: 1.14,
+                autoAlpha: 0.34,
+                rotate: 40,
+                ease: "none"
+              },
+              0
+            )
+            .to(
+              "[data-hero-orbit-core]",
+              {
+                yPercent: -40,
+                xPercent: 26,
+                autoAlpha: 0.5,
                 ease: "none"
               },
               0
@@ -474,7 +551,11 @@ export function HeroSection() {
               lang="ar"
               dir="rtl"
             >
-              {renderWords(headlineLines[2], "line-3", true)}
+              {renderWords(
+                "\u0648\u0627\u062c\u0647\u0627\u062a \u062a\u062d\u0643\u064a \u0641\u0643\u0631\u062a\u0647\u0627 \u0645\u0639 \u0643\u0644 \u062a\u0645\u0631\u064a\u0631\u0629",
+                "line-3",
+                true
+              )}
             </span>
           </h1>
 
@@ -506,18 +587,22 @@ export function HeroSection() {
             <motion.div whileHover={{ y: -5, scale: 1.01 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="#story-flow"
-                className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-sm font-medium text-black shadow-[0_0_42px_rgba(255,255,255,0.24)] transition-all duration-300 hover:bg-white/[0.92] hover:shadow-[0_0_56px_rgba(255,255,255,0.28)]"
+                className="group inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-3.5 text-sm font-medium text-black shadow-[0_0_42px_rgba(255,255,255,0.24)] transition-all duration-300 hover:bg-white/[0.92] hover:shadow-[0_0_56px_rgba(255,255,255,0.28)]"
               >
-                Enter the Story
+                <span className="h-2.5 w-2.5 rounded-full bg-black/75 transition-transform duration-300 group-hover:scale-125" />
+                <span>Enter the Story</span>
               </Link>
             </motion.div>
 
             <motion.div whileHover={{ y: -5 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="#sticky-story"
-                className="inline-flex items-center justify-center rounded-full border border-white/[0.12] bg-white/[0.03] px-7 py-3.5 text-sm font-medium text-white/[0.84] backdrop-blur transition-all duration-300 hover:border-white/[0.22] hover:bg-white/[0.06] hover:shadow-[0_18px_50px_rgba(255,255,255,0.08)]"
+                className="group inline-flex items-center justify-center gap-3 rounded-full border border-white/[0.12] bg-white/[0.03] px-7 py-3.5 text-sm font-medium text-white/[0.84] backdrop-blur transition-all duration-300 hover:border-white/[0.22] hover:bg-white/[0.06] hover:shadow-[0_18px_50px_rgba(255,255,255,0.08)]"
               >
-                See the Pinned Sequence
+                <span>See the Pinned Sequence</span>
+                <span className="text-white/[0.48] transition-transform duration-300 group-hover:translate-x-1">
+                  /
+                </span>
               </Link>
             </motion.div>
           </div>
@@ -559,6 +644,14 @@ export function HeroSection() {
             <div
               data-hero-grid
               className="absolute inset-[6%] rounded-[2.5rem] border border-white/[0.08] bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))]"
+            />
+            <div
+              data-hero-orbit
+              className="absolute right-[12%] top-[16%] h-28 w-28 rounded-full border border-white/[0.1] opacity-0 will-change-transform md:h-36 md:w-36"
+            />
+            <div
+              data-hero-orbit-core
+              className="absolute right-[18%] top-[22%] h-2.5 w-2.5 rounded-full bg-white/[0.82] opacity-0 shadow-[0_0_18px_rgba(255,255,255,0.45)] will-change-transform"
             />
             <div className="absolute inset-[12%] rounded-[2.5rem] border border-white/[0.08] shadow-glow" />
             <div className="absolute inset-[18%] rounded-[2.2rem] border border-white/[0.05]" />

@@ -1,13 +1,14 @@
 "use client";
 
 import { gsap } from "gsap";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 let initialized = false;
 
 export function initGSAP() {
   if (typeof window !== "undefined" && !initialized) {
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
     gsap.config({
       autoSleep: 60,
       nullTargetWarn: false,
@@ -23,7 +24,7 @@ export function initGSAP() {
     initialized = true;
   }
 
-  return { gsap, ScrollTrigger };
+  return { gsap, ScrollTrigger, ScrollSmoother };
 }
 
 export function reducedMotion() {
@@ -47,7 +48,7 @@ export function createReveal(
   options: RevealOptions = {}
 ) {
   const {
-    y = 80,
+    y = 100,
     duration = 1.1,
     start = "top 80%",
     stagger = 0.12,

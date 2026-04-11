@@ -99,11 +99,11 @@ describe("landing page animation components", () => {
   it("renders the sticky story messages", () => {
     render(<StickyStorySection />);
 
-    expect(screen.getAllByText("Moment 01").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Opening calm").length).toBeGreaterThan(0);
     expect(
-      screen.getByText(/Pinned storytelling lets each sentence arrive on its own beat/i)
+      screen.getByText(/Pinned storytelling lets each sentence take the lead for a beat/i)
     ).toBeTruthy();
-    expect(screen.getAllByText("Moment 04").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Meaning lands").length).toBeGreaterThan(0);
   });
 
   it("renders ScrollReveal children with the reveal class", () => {

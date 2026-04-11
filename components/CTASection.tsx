@@ -7,9 +7,9 @@ import { useLayoutEffect, useRef } from "react";
 import { initGSAP, reducedMotion } from "@/lib/animations";
 
 const closingSignals = [
-  "Narrative-first motion",
-  "Editorial interface rhythm",
-  "Faster client buy-in"
+  "Quieter transitions",
+  "Sharper memory",
+  "Client-ready polish"
 ];
 
 export function CTASection() {
@@ -33,6 +33,13 @@ export function CTASection() {
           filter: "blur(0px)"
         });
 
+        gsap.set(["[data-cta-ring]", "[data-cta-orb]"], {
+          autoAlpha: 1,
+          scale: 1,
+          x: 0,
+          y: 0
+        });
+
         return;
       }
 
@@ -49,8 +56,8 @@ export function CTASection() {
           y: 0,
           scale: 1,
           filter: "blur(0px)",
-          duration: 1,
-          stagger: 0.12,
+          duration: 1.06,
+          stagger: 0.1,
           ease: "power3.out",
           scrollTrigger: {
             trigger: section,
@@ -67,7 +74,7 @@ export function CTASection() {
         },
         {
           scaleX: 1,
-          duration: 1.14,
+          duration: 1.18,
           ease: "power3.out",
           scrollTrigger: {
             trigger: section,
@@ -80,8 +87,45 @@ export function CTASection() {
         "[data-cta-shell]",
         { yPercent: 8, scale: 0.986 },
         {
-          yPercent: -4,
-          scale: 1.012,
+          yPercent: -5,
+          scale: 1.014,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.26
+          }
+        }
+      );
+
+      gsap.fromTo(
+        "[data-cta-sheen]",
+        { xPercent: -18, autoAlpha: 0 },
+        {
+          xPercent: 22,
+          autoAlpha: 0.46,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.26
+          }
+        }
+      );
+
+      gsap.fromTo(
+        "[data-cta-ring]",
+        {
+          autoAlpha: 0.18,
+          scale: 0.92,
+          rotate: -6
+        },
+        {
+          autoAlpha: 0.48,
+          scale: 1.06,
+          rotate: 8,
           ease: "none",
           scrollTrigger: {
             trigger: section,
@@ -93,25 +137,30 @@ export function CTASection() {
       );
 
       gsap.fromTo(
-        "[data-cta-sheen]",
-        { xPercent: -18, autoAlpha: 0 },
+        "[data-cta-orb]",
         {
-          xPercent: 16,
-          autoAlpha: 0.42,
+          x: -10,
+          y: 8,
+          scale: 0.88
+        },
+        {
+          x: 16,
+          y: -12,
+          scale: 1.06,
           ease: "none",
           scrollTrigger: {
             trigger: section,
             start: "top bottom",
             end: "bottom top",
-            scrub: 1.2
+            scrub: 1.16
           }
         }
       );
 
       gsap.to("[data-cta-pulse]", {
-        scale: 1.1,
-        opacity: 0.74,
-        duration: 3.1,
+        scale: 1.14,
+        opacity: 0.72,
+        duration: 3.4,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut"
@@ -130,6 +179,14 @@ export function CTASection() {
         <div
           data-cta-pulse
           className="absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/[0.06] blur-[50px]"
+        />
+        <div
+          data-cta-ring
+          className="absolute right-[14%] top-[18%] h-24 w-24 rounded-full border border-black/[0.08] will-change-transform md:h-32 md:w-32"
+        />
+        <div
+          data-cta-orb
+          className="absolute right-[19%] top-[23%] h-3 w-3 rounded-full bg-black/70 shadow-[0_0_18px_rgba(0,0,0,0.18)] will-change-transform"
         />
         <div
           data-cta-sheen
@@ -197,18 +254,22 @@ export function CTASection() {
             <motion.div whileHover={{ y: -5, scale: 1.012 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="#top"
-                className="inline-flex min-w-[14rem] items-center justify-center rounded-full bg-black px-8 py-3.5 text-sm font-medium text-white shadow-[0_20px_50px_rgba(0,0,0,0.18)] transition-all duration-300 hover:bg-black/[0.92] hover:shadow-[0_26px_70px_rgba(0,0,0,0.24)]"
+                className="group inline-flex min-w-[14rem] items-center justify-center gap-3 rounded-full bg-black px-8 py-3.5 text-sm font-medium text-white shadow-[0_20px_50px_rgba(0,0,0,0.18)] transition-all duration-300 hover:bg-black/[0.92] hover:shadow-[0_26px_70px_rgba(0,0,0,0.24)]"
               >
-                Replay the Experience
+                <span className="h-2.5 w-2.5 rounded-full bg-white/80 transition-transform duration-300 group-hover:scale-125" />
+                <span>Replay the Experience</span>
               </Link>
             </motion.div>
 
             <motion.div whileHover={{ y: -5, scale: 1.012 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="mailto:hello@luma-atelier.dev"
-                className="inline-flex min-w-[14rem] items-center justify-center rounded-full border border-black/[0.1] bg-transparent px-8 py-3.5 text-sm font-medium text-black transition-all duration-300 hover:bg-black/[0.04] hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]"
+                className="group inline-flex min-w-[14rem] items-center justify-center gap-3 rounded-full border border-black/[0.1] bg-transparent px-8 py-3.5 text-sm font-medium text-black transition-all duration-300 hover:bg-black/[0.04] hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]"
               >
-                Start the Upgrade
+                <span>Start the Upgrade</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  /
+                </span>
               </Link>
             </motion.div>
           </div>

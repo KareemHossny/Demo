@@ -89,7 +89,9 @@ export function ParallaxSection() {
             "[data-parallax-shell]",
             "[data-parallax-layer]",
             "[data-parallax-sheen]",
-            "[data-parallax-line]"
+            "[data-parallax-line]",
+            "[data-parallax-ring]",
+            "[data-parallax-orb]"
           ],
           {
             autoAlpha: 1,
@@ -125,12 +127,12 @@ export function ParallaxSection() {
             filter: "blur(16px)"
           },
           {
-            autoAlpha: 1,
-            yPercent: 0,
-            filter: "blur(0px)",
-            duration: 1.08,
-            stagger: 0.032,
-            ease: "power3.out",
+              autoAlpha: 1,
+              yPercent: 0,
+              filter: "blur(0px)",
+              duration: 1.14,
+              stagger: 0.03,
+              ease: "power3.out",
             scrollTrigger: {
               trigger: section,
               start: "top 80%"
@@ -146,12 +148,12 @@ export function ParallaxSection() {
             filter: "blur(12px)"
           },
           {
-            autoAlpha: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.92,
-            stagger: 0.12,
-            ease: "power3.out",
+              autoAlpha: 1,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.98,
+              stagger: 0.11,
+              ease: "power3.out",
             scrollTrigger: {
               trigger: section,
               start: "top 80%"
@@ -163,9 +165,9 @@ export function ParallaxSection() {
           "[data-parallax-line]",
           { scaleX: 0, transformOrigin: "left center" },
           {
-            scaleX: 1,
-            duration: 1.14,
-            ease: "power3.out",
+              scaleX: 1,
+              duration: 1.22,
+              ease: "power3.out",
             scrollTrigger: {
               trigger: section,
               start: "top 80%"
@@ -222,6 +224,48 @@ export function ParallaxSection() {
               start: "top bottom",
               end: "bottom top",
               scrub: settings.copyScrub
+            }
+          }
+        );
+
+        gsap.fromTo(
+          "[data-parallax-ring]",
+          {
+            autoAlpha: 0.2,
+            scale: 0.92,
+            rotate: -8
+          },
+          {
+            autoAlpha: 0.44,
+            scale: 1.06,
+            rotate: 6,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: settings.copyScrub + 0.12
+            }
+          }
+        );
+
+        gsap.fromTo(
+          "[data-parallax-orb]",
+          {
+            xPercent: -10,
+            yPercent: -12,
+            scale: 0.92
+          },
+          {
+            xPercent: 14,
+            yPercent: 18,
+            scale: 1.06,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: settings.copyScrub + 0.08
             }
           }
         );
@@ -321,8 +365,8 @@ export function ParallaxSection() {
             data-parallax-copy
             className="mt-7 max-w-xl text-pretty text-base leading-8 text-white/[0.64] sm:text-lg"
           >
-            Background surfaces drift slower than the foreground. That small
-            difference is enough to make the entire section feel richer without
+            Background surfaces drift slower than the foreground. That gentle
+            difference makes the section feel spatial and tactile without
             leaning on heavy 3D or attention-seeking gimmicks.
           </p>
           <div
@@ -336,6 +380,26 @@ export function ParallaxSection() {
             Depth works best when it stays almost invisible. It should be felt
             before it is consciously noticed.
           </p>
+          <div className="mt-8 flex flex-wrap gap-3 text-[0.68rem] uppercase tracking-[0.24em] text-white/[0.38]">
+            <span
+              data-parallax-copy
+              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
+            >
+              Slow background
+            </span>
+            <span
+              data-parallax-copy
+              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
+            >
+              Mid-layer drift
+            </span>
+            <span
+              data-parallax-copy
+              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2"
+            >
+              Focused foreground
+            </span>
+          </div>
         </div>
 
         <div
@@ -348,6 +412,14 @@ export function ParallaxSection() {
           />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]" />
           <div className="absolute inset-6 rounded-[2rem] border border-white/[0.08] bg-[linear-gradient(135deg,rgba(255,255,255,0.03),transparent)]" />
+          <div
+            data-parallax-ring
+            className="absolute right-[14%] top-[16%] h-28 w-28 rounded-full border border-white/[0.08] will-change-transform md:h-36 md:w-36"
+          />
+          <div
+            data-parallax-orb
+            className="absolute right-[21%] top-[23%] h-3 w-3 rounded-full bg-white/[0.82] shadow-[0_0_18px_rgba(255,255,255,0.4)] will-change-transform"
+          />
           <div
             data-parallax-layer
             data-speed="0.22"

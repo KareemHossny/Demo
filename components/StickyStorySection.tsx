@@ -27,6 +27,34 @@ const moments = [
   }
 ];
 
+const storyMoments = [
+  {
+    label: "Opening calm",
+    title: "First, the page earns attention with space, contrast, and restraint.",
+    copy:
+      "The layout opens quietly so the user feels intention before they start noticing technique."
+  },
+  {
+    label: "Attention shift",
+    title: "Then the motion begins to direct the eye instead of decorating the screen.",
+    copy:
+      "Pinned storytelling lets each sentence take the lead for a beat, which is what makes the sequence feel cinematic."
+  },
+  {
+    label: "Narrative lock",
+    title: "By the third reveal, the message feels inevitable rather than introduced.",
+    copy:
+      "That is the difference between a polished experience and a page that simply has more animation on it."
+  },
+  {
+    label: "Meaning lands",
+    title:
+      "\u0648\u0623\u062e\u064a\u0631\u064b\u0627 \u062a\u0635\u0644 \u0627\u0644\u0641\u0643\u0631\u0629 \u0628\u0648\u0636\u0648\u062d \u0644\u0623\u0646 \u0627\u0644\u062d\u0631\u0643\u0629 \u0643\u0627\u0646\u062a \u062a\u062e\u062f\u0645 \u0627\u0644\u0645\u0639\u0646\u0649 \u0637\u0648\u0627\u0644 \u0627\u0644\u0648\u0642\u062a",
+    copy:
+      "Arabic support, responsive pacing, and restrained animation keep the premium feel intact across direction changes and screen sizes."
+  }
+];
+
 type StoryMotionSettings = {
   shellY: number;
   shellScale: number;
@@ -42,6 +70,11 @@ type StoryMotionSettings = {
   fadeAlpha: number;
   fadeY: number;
   fadeBlur: number;
+  stepSpacing: number;
+  holdOffset: number;
+  lineStagger: number;
+  spotlightXStep: number;
+  spotlightScale: number;
 };
 
 export function StickyStorySection() {
@@ -65,6 +98,7 @@ export function StickyStorySection() {
       const stage = section.querySelector<HTMLElement>("[data-sticky-stage]");
       const shell = section.querySelector<HTMLElement>("[data-sticky-shell]");
       const spotlight = section.querySelector<HTMLElement>("[data-sticky-spotlight]");
+      const sheen = section.querySelector<HTMLElement>("[data-sticky-sheen]");
 
       if (reducedMotion()) {
         gsap.set(section, { height: "auto" });
@@ -87,6 +121,10 @@ export function StickyStorySection() {
           width: "100%",
           marginBottom: "3rem"
         });
+
+        if (sheen) {
+          gsap.set(sheen, { autoAlpha: 0.22, xPercent: 0 });
+        }
 
         return;
       }
@@ -138,6 +176,7 @@ export function StickyStorySection() {
         items.forEach((item, index) => {
           const dot = dots[index];
           const lines = item.querySelectorAll("[data-sticky-line]");
+          const position = index * settings.stepSpacing;
 
           if (dot) {
             timeline.to(
@@ -148,7 +187,7 @@ export function StickyStorySection() {
                 scale: settings.dotScale,
                 duration: 0.18
               },
-              index
+              position
             );
           }
 
@@ -160,7 +199,7 @@ export function StickyStorySection() {
                 duration: 0.42,
                 ease: "none"
               },
-              index
+              position
             );
           }
 
@@ -168,12 +207,27 @@ export function StickyStorySection() {
             timeline.to(
               spotlight,
               {
+                xPercent: index * settings.spotlightXStep,
                 yPercent: index * settings.spotlightStep,
+                scale: settings.spotlightScale + index * 0.05,
                 autoAlpha: 0.92 - index * 0.08,
                 duration: 0.42,
                 ease: "power2.inOut"
               },
-              index
+              position
+            );
+          }
+
+          if (sheen) {
+            timeline.to(
+              sheen,
+              {
+                xPercent: index * 14,
+                autoAlpha: 0.12 + index * 0.06,
+                duration: settings.stepSpacing,
+                ease: "power2.inOut"
+              },
+              position
             );
           }
 
@@ -183,11 +237,11 @@ export function StickyStorySection() {
               autoAlpha: 1,
               y: 0,
               scale: 1,
-              filter: "blur(0px)",
-              duration: settings.revealDuration
-            },
-            index + 0.06
-          );
+                filter: "blur(0px)",
+                duration: settings.revealDuration
+              },
+              position + 0.08
+            );
 
           if (lines.length > 0) {
             timeline.fromTo(
@@ -202,9 +256,9 @@ export function StickyStorySection() {
                 y: 0,
                 filter: "blur(0px)",
                 duration: 0.38,
-                stagger: 0.06
+                stagger: settings.lineStagger
               },
-              index + 0.12
+              position + 0.16
             );
           }
 
@@ -219,10 +273,22 @@ export function StickyStorySection() {
                 duration: settings.fadeDuration,
                 ease: "power2.inOut"
               },
-              index + 0.74
+              position + settings.holdOffset
             );
           }
         });
+
+        if (shell) {
+          timeline.to(
+            shell,
+            {
+              scale: 1.012,
+              ease: "none",
+              duration: items.length * settings.stepSpacing
+            },
+            0
+          );
+        }
       };
 
       ScrollTrigger.matchMedia({
@@ -233,15 +299,20 @@ export function StickyStorySection() {
             shellBlur: 12,
             itemY: 24,
             itemBlur: 10,
-            scrub: 1.04,
-            endFactor: 2.2,
+            scrub: 1.08,
+            endFactor: 2.35,
             spotlightStep: 17,
+            spotlightXStep: 6,
+            spotlightScale: 1,
             dotScale: 1.12,
-            revealDuration: 0.48,
-            fadeDuration: 0.34,
+            revealDuration: 0.52,
+            fadeDuration: 0.36,
             fadeAlpha: 0.08,
             fadeY: -14,
-            fadeBlur: 8
+            fadeBlur: 8,
+            stepSpacing: 1.02,
+            holdOffset: 0.78,
+            lineStagger: 0.07
           });
         },
         "(min-width: 768px)": () => {
@@ -251,15 +322,20 @@ export function StickyStorySection() {
             shellBlur: 16,
             itemY: 40,
             itemBlur: 16,
-            scrub: 1.22,
-            endFactor: 3.1,
+            scrub: 1.28,
+            endFactor: 3.35,
             spotlightStep: 26,
+            spotlightXStep: 10,
+            spotlightScale: 1.02,
             dotScale: 1.18,
-            revealDuration: 0.54,
-            fadeDuration: 0.42,
+            revealDuration: 0.6,
+            fadeDuration: 0.46,
             fadeAlpha: 0.12,
             fadeY: -24,
-            fadeBlur: 10
+            fadeBlur: 10,
+            stepSpacing: 1.08,
+            holdOffset: 0.8,
+            lineStagger: 0.08
           });
         }
       });
@@ -283,6 +359,10 @@ export function StickyStorySection() {
           data-sticky-spotlight
           className="absolute left-[18%] top-[12%] h-52 w-52 rounded-full bg-white/[0.14] blur-[95px] will-change-transform"
         />
+        <div
+          data-sticky-sheen
+          className="sheen-overlay absolute inset-y-[12%] left-[-10%] w-[34%] opacity-0 blur-2xl"
+        />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.14),transparent_42%)] opacity-80" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.24] to-transparent" />
         <div className="absolute inset-[6%] rounded-[2rem] border border-white/[0.06]" />
@@ -302,19 +382,19 @@ export function StickyStorySection() {
               </p>
             </div>
 
-            <div className="hidden items-start gap-4 lg:flex">
-              <div className="relative h-48 w-px bg-white/[0.12]">
-                <div
-                  data-sticky-progress
+              <div className="hidden items-start gap-4 lg:flex">
+                <div className="relative h-48 w-px bg-white/[0.12]">
+                  <div
+                    data-sticky-progress
                   className="absolute bottom-0 left-0 w-px bg-white"
                   style={{ height: "0%" }}
                 />
-              </div>
-              <div className="grid gap-4">
-                {moments.map((moment) => (
-                  <div key={moment.label} className="flex items-center gap-3">
-                    <span
-                      data-sticky-dot
+                </div>
+                <div className="grid gap-4">
+                  {storyMoments.map((moment) => (
+                    <div key={moment.label} className="flex items-center gap-3">
+                      <span
+                        data-sticky-dot
                       className="h-3 w-3 rounded-full border border-white/[0.2] bg-transparent transition-transform"
                     />
                     <span className="text-sm uppercase tracking-[0.24em] text-white/[0.38]">
@@ -330,7 +410,7 @@ export function StickyStorySection() {
             data-sticky-stage
             className="relative flex items-center justify-center lg:min-h-[34rem]"
           >
-            {moments.map((moment, index) => (
+            {storyMoments.map((moment, index) => (
               <article
                 key={moment.label}
                 data-sticky-step
@@ -348,8 +428,8 @@ export function StickyStorySection() {
                   <h3
                     data-sticky-line
                     className="mt-6 text-balance text-4xl font-semibold leading-[0.98] text-white sm:text-5xl md:text-6xl"
-                    lang={index === moments.length - 1 ? "ar" : undefined}
-                    dir={index === moments.length - 1 ? "rtl" : undefined}
+                    lang={index === storyMoments.length - 1 ? "ar" : undefined}
+                    dir={index === storyMoments.length - 1 ? "rtl" : undefined}
                   >
                     {moment.title}
                   </h3>
@@ -365,7 +445,7 @@ export function StickyStorySection() {
 
             <div className="absolute bottom-0 left-0 right-0 hidden justify-between text-[0.68rem] uppercase tracking-[0.24em] text-white/[0.28] lg:flex">
               <span>Scroll to reveal</span>
-              <span>Timing carries the message</span>
+              <span>Each beat earns the next one</span>
             </div>
           </div>
         </div>
